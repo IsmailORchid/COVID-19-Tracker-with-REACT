@@ -11,7 +11,7 @@ body{
   justify-content: space-evenly;
   padding: 20px;
 }
-.app_left{
+.app__left{
   flex: 0.9;
 }
 .app__header{

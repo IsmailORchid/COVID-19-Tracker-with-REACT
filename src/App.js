@@ -5,15 +5,22 @@ import MapBox from './components/MapComponent'
 import TableBox from './components/TableBoxComponent'
 import LineGraphBox from './components/LineGraphComponent'
 import {sortData}from './util'
+import "leaflet/dist/leaflet.css"
 import './App.css';
+
+
+
+
 
 function App() {
   const [conutries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide')
   const [countryInfo, setCountryInfo] = useState({})
   const [tableData, setTableData] = useState([]);
-  //https://disease.sh/v3/covid-19/countries
- 
+  const [mapCenter, setMapCenter] = useState({lat:34.80746,lng:-40.4796})
+  const [mapZoom, setMapZoom] = useState(3)
+  const [mapCountries,setMapCountries] = useState([]);
+  
   const baseUrl = "https://disease.sh/v3/covid-19/countries";
   const worldwideUrl = "https://disease.sh/v3/covid-19/all";
   useEffect(() => {
@@ -39,6 +46,7 @@ function App() {
              .then(response => response.json())
              .then(data => {
               setTableData(sortData(data));
+              setMapCountries(data);
                const countries = data.map(country=>(
                  {
                    name: country.country,
@@ -48,7 +56,7 @@ function App() {
                setCountries(countries);
              })
      })()
-  },[conutries]);
+  },[country]);
   const onCountryyChange = async (event)=>{
     const countryCode = event.target.value;
     
@@ -61,6 +69,8 @@ function App() {
              .then(data => {
                console.log(data);
                setCountryInfo(data)
+               setMapCenter([data.countryInfo.lat,data.countryInfo.long])
+               setMapZoom(4);
                
              })
      })()
@@ -96,7 +106,10 @@ function App() {
           </div>
             
             
-            <MapBox/>
+            <MapBox
+             countries={mapCountries}
+             center={mapCenter} 
+             zoom={mapZoom}/>
        </div>
        <Card className="app_right">
          <CardContent>
