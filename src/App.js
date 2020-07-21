@@ -3,6 +3,7 @@ import {MenuItem,FormControl,Select,Card,CardContent} from '@material-ui/core'
 import InfoBox from './components/InfoBoxComponent'
 import MapBox from './components/MapComponent'
 import TableBox from './components/TableBoxComponent'
+import LineGraphBox from './components/LineGraphComponent'
 import {sortData}from './util'
 import './App.css';
 
@@ -102,6 +103,7 @@ function App() {
             <h3>Live Cases by Country</h3>
             <TableBox countries={tableData}/>  
             <h3>Worldwide new cases</h3>
+            <LineGraphBox />
          </CardContent>
        </Card>
     </div>
