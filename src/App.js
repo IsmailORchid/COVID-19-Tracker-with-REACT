@@ -1,7 +1,7 @@
 import React ,{useState, useEffect} from 'react';
 import {MenuItem,FormControl,Select} from '@material-ui/core'
-import InfoBox from './componenents/InfoBoxComponent'
-import MapBox from './componenents/MapComponenent'
+import InfoBox from './components/InfoBoxComponent'
+import MapBox from './components/MapComponent'
 import './App.css';
 
 function App() {
