@@ -1,4 +1,5 @@
 import React from 'react'
+import numeral from 'numeral';
 import './TableBox.css'
 export default function TableBox({countries}) {
     return (
@@ -7,7 +8,7 @@ export default function TableBox({countries}) {
                <div key={i}>
                    <tr >
                    <td>{country}</td>
-                   <td><strong>{cases}</strong></td>
+                   <td><strong>{numeral(cases).format("0.0a")}</strong></td>
                    </tr>
                 </div>
             ))}

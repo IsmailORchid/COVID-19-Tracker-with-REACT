@@ -48,7 +48,7 @@ const options ={
 
    
 }
-export default function LineGraphBox({casesType='cases'}) {
+export default function LineGraphBox({casesType='cases',...props}) {
     const [data, setData] = useState({})
     const fetchUrl = "https://disease.sh/v3/covid-19/historical/all?lastdays=120";
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function LineGraphBox({casesType='cases'}) {
         .then(response=> response.json())
         .then(data =>{
             console.log(data);
-            setData(builChardData(data));
+            setData(builChardData(data,casesType));
         })
       })()
     }, [casesType])
@@ -79,7 +79,7 @@ export default function LineGraphBox({casesType='cases'}) {
         return chartData;
     }
     return (
-        <div>
+        <div className={props.className}>
             {
                 data?.length > 0 &&(
                     <Line

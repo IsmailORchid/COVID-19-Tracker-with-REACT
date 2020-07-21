@@ -4,7 +4,7 @@ import InfoBox from './components/InfoBoxComponent'
 import MapBox from './components/MapComponent'
 import TableBox from './components/TableBoxComponent'
 import LineGraphBox from './components/LineGraphComponent'
-import {sortData}from './util'
+import {sortData,prettyPrintStat}from './util'
 import "leaflet/dist/leaflet.css"
 import './App.css';
 
@@ -20,7 +20,7 @@ function App() {
   const [mapCenter, setMapCenter] = useState({lat:34.80746,lng:-40.4796})
   const [mapZoom, setMapZoom] = useState(3)
   const [mapCountries,setMapCountries] = useState([]);
-  
+  const [casesType,setCasesType] = useState('cases');
   const baseUrl = "https://disease.sh/v3/covid-19/countries";
   const worldwideUrl = "https://disease.sh/v3/covid-19/all";
   useEffect(() => {
@@ -99,14 +99,27 @@ function App() {
             </div>
           
           <div className="app__stats">
-            <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}></InfoBox>
-            <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered}></InfoBox>
-            <InfoBox title="Deaths " cases={countryInfo.todayDeaths} total={countryInfo.deaths}></InfoBox>
+            <InfoBox
+            isRed
+            active={casesType === "cases"}
+            onClick={e=>setCasesType('cases')}
+             title="Coronavirus Cases" cases={prettyPrintStat(countryInfo.todayCases)} total={prettyPrintStat(countryInfo.cases)}></InfoBox>
+            <InfoBox 
+            
+            active={casesType === "recovered"}
+            onClick={e=>setCasesType('recovered')}
+            title="Recovered" cases={prettyPrintStat(countryInfo.todayRecovered)} total={prettyPrintStat(countryInfo.recovered)}></InfoBox>
+            <InfoBox 
+            isRed
+            active={casesType === "deaths"}
+            onClick={e=>setCasesType('deaths')}
+            title="Deaths " cases={prettyPrintStat(countryInfo.todayDeaths)} total={prettyPrintStat(countryInfo.deaths)}></InfoBox>
           
           </div>
             
             
             <MapBox
+             casesType={casesType}
              countries={mapCountries}
              center={mapCenter} 
              zoom={mapZoom}/>
@@ -115,8 +128,8 @@ function App() {
          <CardContent>
             <h3>Live Cases by Country</h3>
             <TableBox countries={tableData}/>  
-            <h3>Worldwide new cases</h3>
-            <LineGraphBox />
+            <h3>Worldwide new {casesType}</h3>
+            <LineGraphBox className="app__graph" casesType={casesType}/>
          </CardContent>
        </Card>
     </div>
